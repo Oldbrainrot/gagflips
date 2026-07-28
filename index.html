@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Garden Flip - Lobby & Mecze</title>
+  <title>Garden Flip - RPS & Inventory</title>
   <style>
     :root {
       --bg-color: #0f172a;
@@ -38,7 +38,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       background: var(--card-bg);
       padding: 15px 20px;
       border-radius: 12px;
@@ -51,16 +51,26 @@
       color: var(--accent);
     }
 
-    .balance-box {
-      font-size: 1.1rem;
-      font-weight: 600;
+    .btn-faucet {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 8px;
+      background: #3b82f6;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    .btn-faucet:hover {
+      background: #2563eb;
     }
 
     .main-grid {
       width: 100%;
       max-width: 900px;
       display: grid;
-      grid-template-columns: 1fr 2fr;
+      grid-template-columns: 1fr 1fr;
       gap: 20px;
     }
 
@@ -81,145 +91,109 @@
       font-size: 1.2rem;
       margin-bottom: 15px;
       color: var(--text);
-    }
-
-    /* Formularz Tworzenia Gry */
-    .create-form {
       display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      text-align: left;
-    }
-
-    .form-group label {
-      font-size: 0.85rem;
-      color: var(--subtext);
-    }
-
-    .form-group input {
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: #0f172a;
-      color: var(--text);
-      font-size: 1rem;
-    }
-
-    .choices {
-      display: flex;
-      gap: 10px;
-    }
-
-    .choice-btn {
-      flex: 1;
-      padding: 10px;
-      border: 2px solid transparent;
-      border-radius: 8px;
-      background: #334155;
-      color: var(--text);
-      font-size: 0.9rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .choice-btn.selected-green {
-      border-color: var(--accent);
-      background: #14532d;
-    }
-
-    .choice-btn.selected-pink {
-      border-color: var(--accent-pink);
-      background: #831843;
-    }
-
-    .btn-submit {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      background: var(--accent);
-      color: #022c22;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .btn-submit:hover {
-      filter: brightness(1.1);
-    }
-
-    /* Lista Meczy */
-    .matches-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      max-height: 450px;
-      overflow-y: auto;
-    }
-
-    .match-item {
-      display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
+    }
+
+    /* System Ekwipunku */
+    .inventory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+      gap: 10px;
+      min-height: 160px;
+      max-height: 260px;
+      overflow-y: auto;
       background: #0f172a;
-      padding: 12px 16px;
+      padding: 10px;
       border-radius: 10px;
       border: 1px solid var(--border);
     }
 
-    .player-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .player-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #334155;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-    }
-
-    .match-details {
+    .inventory-item {
+      aspect-ratio: 1;
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 8px;
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 1.5rem;
+      position: relative;
+    }
+
+    .inventory-item:hover {
+      border-color: var(--accent);
+    }
+
+    .inventory-item.selected {
+      border-color: var(--accent);
+      background: #14532d;
+    }
+
+    .item-name {
+      font-size: 0.65rem;
+      color: var(--subtext);
+      margin-top: 4px;
+    }
+
+    /* Wybór RPS */
+    .rps-choices {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .rps-btn {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      background: #0f172a;
+      color: var(--text);
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       gap: 4px;
     }
 
-    .bet-tag {
-      font-weight: bold;
-      color: var(--accent);
+    .rps-btn span {
+      font-size: 0.75rem;
+      color: var(--subtext);
     }
 
-    .btn-join {
-      padding: 6px 14px;
+    .rps-btn.selected {
+      border-color: var(--accent);
+      background: #14532d;
+    }
+
+    .btn-play {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
       border: none;
-      border-radius: 6px;
-      background: #3b82f6;
-      color: white;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #022c22;
+      font-size: 1.1rem;
       font-weight: bold;
       cursor: pointer;
-      font-size: 0.85rem;
+      transition: 0.2s;
     }
 
-    .btn-join:hover {
-      background: #2563eb;
+    .btn-play:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
     }
 
-    /* Modal Areny Gry */
+    /* Modal / Arena Walki */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -237,127 +211,88 @@
     .arena-card {
       background: var(--card-bg);
       width: 90%;
-      max-width: 500px;
+      max-width: 450px;
       padding: 30px;
       border-radius: 16px;
       text-align: center;
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
     }
 
-    .versus-container {
+    .battle-display {
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
       align-items: center;
-      margin-bottom: 20px;
+      margin: 30px 0;
     }
 
-    .versus-player {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
+    .battle-hand {
+      font-size: 3.5rem;
+      transition: transform 0.2s;
     }
 
-    /* Moneta Animacja */
-    .coin-wrapper {
-      perspective: 1000px;
-      margin: 25px auto;
-      width: 100px;
-      height: 100px;
-    }
-
-    .coin {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform 3s cubic-bezier(0.15, 0.85, 0.35, 1.2);
-    }
-
-    .coin-face {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.5rem;
-      border: 3px solid rgba(255,255,255,0.2);
-    }
-
-    .side-green {
-      background: radial-gradient(circle, #22c55e, #15803d);
-    }
-
-    .side-pink {
-      background: radial-gradient(circle, #ec4899, #be185d);
-      transform: rotateY(180deg);
+    .empty-msg {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: var(--subtext);
+      font-size: 0.85rem;
+      margin-top: 50px;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="logo">🌱 GardenFlip</div>
-    <div class="balance-box">Konieczyny: <span id="balance">1000</span> ☘️</div>
+    <div class="logo">🌱 Garden RPS</div>
+    <button class="btn-faucet" onclick="claimStarterItem()">+ DARMOWE NASIONO</button>
   </header>
 
   <div class="main-grid">
-    <!-- Panel Tworzenia Gry -->
+    <!-- Panel Ekwipunku -->
     <div class="card">
-      <h2>Stwórz Pokój</h2>
-      <div class="create-form">
-        <div class="form-group">
-          <label>Twoja Strona:</label>
-          <div class="choices">
-            <button class="choice-btn selected-green" id="btn-green" onclick="selectSide('green')">🌿 Liść</button>
-            <button class="choice-btn" id="btn-pink" onclick="selectSide('pink')">🌸 Kwiat</button>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="bet-amount">Stawka (Koniczyny):</label>
-          <input type="number" id="bet-amount" value="50" min="10" step="10" />
-        </div>
-
-        <button class="btn-submit" onclick="createMatch()">+ Stwórz Mecz</button>
+      <h2>Ekwipunek (<span id="inv-count">0</span>)</h2>
+      <div class="inventory-grid" id="inventory-grid">
+        <!-- Przedmioty będą renderowane dynamicznie -->
       </div>
     </div>
 
-    <!-- Lista Pokoi / Meczy -->
+    <!-- Panel Areny Rock Paper Scissors -->
     <div class="card">
-      <h2>Lobby Meczy (<span id="matches-count">0</span>)</h2>
-      <div class="matches-list" id="matches-list">
-        <!-- Pokoje generowane dynamicznie -->
+      <h2>Kamień, Papier, Nożyce</h2>
+      
+      <p style="font-size: 0.85rem; color: var(--subtext); margin-bottom: 15px;">
+        Zaznacz przedmiot z ekwipunku i wybierz swój ruch. W przypadku wygranej otrzymujesz <strong>2x swój przedmiot</strong>!
+      </p>
+
+      <div class="rps-choices">
+        <button class="rps-btn" id="rps-rock" onclick="selectRPS('rock')">
+          🪨 <span>Kamień</span>
+        </button>
+        <button class="rps-btn" id="rps-paper" onclick="selectRPS('paper')">
+          📄 <span>Papier</span>
+        </button>
+        <button class="rps-btn" id="rps-scissors" onclick="selectRPS('scissors')">
+          ✂️ <span>Nożyce</span>
+        </button>
       </div>
+
+      <button class="btn-play" id="btn-play" onclick="playRPS()" disabled>Zagraj o przedmiot</button>
     </div>
   </div>
 
-  <!-- Modal Gra / Rzut Monetą -->
+  <!-- Modal Wyniku Gra -->
   <div class="modal-overlay" id="arena-modal">
     <div class="arena-card">
-      <h2 id="arena-status">Przygotowanie do rzutu...</h2>
-      
-      <div class="versus-container">
-        <div class="versus-player">
-          <div class="player-avatar">🧑</div>
-          <strong id="p1-name">Gracz 1</strong>
-          <span id="p1-choice" style="font-size: 1.2rem;">🌿</span>
+      <h2 id="arena-status">Pojedynek...</h2>
+
+      <div class="battle-display">
+        <div>
+          <div class="battle-hand" id="p1-hand">✊</div>
+          <span style="font-size: 0.8rem; color: var(--subtext);">Ty</span>
         </div>
         <div style="font-size: 1.5rem; font-weight: bold; color: var(--subtext);">VS</div>
-        <div class="versus-player">
-          <div class="player-avatar">👤</div>
-          <strong id="p2-name">Gracz 2</strong>
-          <span id="p2-choice" style="font-size: 1.2rem;">🌸</span>
-        </div>
-      </div>
-
-      <div class="coin-wrapper">
-        <div class="coin" id="coin">
-          <div class="coin-face side-green">🌿</div>
-          <div class="coin-face side-pink">🌸</div>
+        <div>
+          <div class="battle-hand" id="p2-hand">✊</div>
+          <span style="font-size: 0.8rem; color: var(--subtext);">Przeciwnik</span>
         </div>
       </div>
 
@@ -366,193 +301,142 @@
   </div>
 
   <script>
-    let balance = parseInt(localStorage.getItem('gf_balance')) || 1000;
-    let selectedSide = 'green';
-    let currentRotation = 0;
+    // Domyślnie brak przedmiotów w ekwipunku
+    let inventory = JSON.parse(localStorage.getItem('grps_inventory')) || [];
+    let selectedItemIndex = null;
+    let selectedRPS = null;
 
-    const balanceEl = document.getElementById('balance');
-    const betInput = document.getElementById('bet-amount');
-    const matchesList = document.getElementById('matches-list');
-    const matchesCount = document.getElementById('matches-count');
-    
-    // Przykładowe imiona graczy symulujących lobby
-    const botNames = ["GamerPro99", "PlantMaster", "Robloxian_21", "LeafLover", "LuckyClover"];
+    const inventoryGrid = document.getElementById('inventory-grid');
+    const invCount = document.getElementById('inv-count');
+    const btnPlay = document.getElementById('btn-play');
 
-    // Lista aktywnych meczy w pamięci
-    let matches = [
-      { id: 1, host: "PlantMaster", side: "green", bet: 100 },
-      { id: 2, host: "Robloxian_21", side: "pink", bet: 250 }
+    const itemTypes = [
+      { name: 'Nasiono', icon: '🌱' },
+      { name: 'Róża', icon: '🌹' },
+      { name: 'Kaktus', icon: '🌵' },
+      { name: 'Słonecznik', icon: '🌻' }
     ];
 
-    function updateBalanceDisplay() {
-      balanceEl.textContent = balance;
-      localStorage.setItem('gf_balance', balance);
+    function saveInventory() {
+      localStorage.setItem('grps_inventory', JSON.stringify(inventory));
+      renderInventory();
     }
 
-    function selectSide(side) {
-      selectedSide = side;
-      document.getElementById('btn-green').className = `choice-btn ${side === 'green' ? 'selected-green' : ''}`;
-      document.getElementById('btn-pink').className = `choice-btn ${side === 'pink' ? 'selected-pink' : ''}`;
-    }
+    function renderInventory() {
+      inventoryGrid.innerHTML = '';
+      invCount.textContent = inventory.length;
 
-    function renderMatches() {
-      matchesList.innerHTML = '';
-      matchesCount.textContent = matches.length;
-
-      if (matches.length === 0) {
-        matchesList.innerHTML = '<p style="color: var(--subtext); text-align: center; margin-top: 20px;">Brak aktywnych gier. Stwórz pierwszą!</p>';
+      if (inventory.length === 0) {
+        inventoryGrid.innerHTML = '<div class="empty-msg">Ekwipunek jest pusty.<br>Odbierz darmowe nasiono u góry!</div>';
+        selectedItemIndex = null;
+        updatePlayButton();
         return;
       }
 
-      matches.forEach(match => {
-        const item = document.createElement('div');
-        item.className = 'match-item';
+      inventory.forEach((item, index) => {
+        const itemEl = document.createElement('div');
+        itemEl.className = `inventory-item ${selectedItemIndex === index ? 'selected' : ''}`;
+        itemEl.onclick = () => selectItem(index);
         
-        const hostSideIcon = match.side === 'green' ? '🌿' : '🌸';
-        const opponentSideIcon = match.side === 'green' ? '🌸' : '🌿';
-
-        item.innerHTML = `
-          <div class="player-info">
-            <div class="player-avatar">👤</div>
-            <div>
-              <strong>${match.host}</strong>
-              <div style="font-size: 0.8rem; color: var(--subtext);">Wybiera: ${hostSideIcon}</div>
-            </div>
-          </div>
-          <div class="match-details">
-            <span class="bet-tag">${match.bet} ☘️</span>
-            <button class="btn-join" onclick="joinMatch(${match.id})">Dołącz (${opponentSideIcon})</button>
-          </div>
+        itemEl.innerHTML = `
+          ${item.icon}
+          <div class="item-name">${item.name}</div>
         `;
-        matchesList.appendChild(item);
+        inventoryGrid.appendChild(itemEl);
       });
+
+      updatePlayButton();
     }
 
-    function createMatch() {
-      const bet = parseInt(betInput.value);
-
-      if (isNaN(bet) || bet <= 0) {
-        alert('Podaj poprawną stawkę!');
-        return;
-      }
-
-      if (bet > balance) {
-        alert('Nie masz wystarczająco koniczyn!');
-        return;
-      }
-
-      // Odebranie stawki na czas trwania pokoju
-      balance -= bet;
-      updateBalanceDisplay();
-
-      const newMatch = {
-        id: Date.now(),
-        host: "Ty",
-        side: selectedSide,
-        bet: bet
-      };
-
-      // Symulacja: Po utworzeniu pokoju po 3-6 sekundach inny gracz dołącza automatycznie
-      matches.unshift(newMatch);
-      renderMatches();
-
-      setTimeout(() => {
-        // Jeśli mecz nadal istnieje na liście, inny gracz do niego dołącza
-        const matchIndex = matches.findIndex(m => m.id === newMatch.id);
-        if (matchIndex !== -1) {
-          const randomBot = botNames[Math.floor(Math.random() * botNames.length)];
-          startGame(newMatch.host, randomBot, newMatch.side, newMatch.bet, true);
-          matches.splice(matchIndex, 1);
-          renderMatches();
-        }
-      }, Math.floor(Math.random() * 3000) + 3000);
+    function claimStarterItem() {
+      inventory.push({ name: 'Nasiono', icon: '🌱' });
+      saveInventory();
     }
 
-    function joinMatch(matchId) {
-      const match = matches.find(m => m.id === matchId);
-      if (!match) return;
-
-      if (match.bet > balance) {
-        alert('Nie masz wystarczająco koniczyn, aby dołączyć do tego meczu!');
-        return;
-      }
-
-      // Pobranie wpisowego
-      balance -= match.bet;
-      updateBalanceDisplay();
-
-      // Usunięcie meczu z listy
-      matches = matches.filter(m => m.id !== matchId);
-      renderMatches();
-
-      // Przeciwnik przyjmuje drugą stronę
-      const playerSide = match.side === 'green' ? 'pink' : 'green';
-      startGame(match.host, "Ty", match.side, match.bet, false);
+    function selectItem(index) {
+      selectedItemIndex = index;
+      renderInventory();
     }
 
-    function startGame(p1Name, p2Name, p1Side, bet, isHost) {
+    function selectRPS(choice) {
+      selectedRPS = choice;
+      document.getElementById('rps-rock').className = `rps-btn ${choice === 'rock' ? 'selected' : ''}`;
+      document.getElementById('rps-paper').className = `rps-btn ${choice === 'paper' ? 'selected' : ''}`;
+      document.getElementById('rps-scissors').className = `rps-btn ${choice === 'scissors' ? 'selected' : ''}`;
+      updatePlayButton();
+    }
+
+    function updatePlayButton() {
+      btnPlay.disabled = selectedItemIndex === null || selectedRPS === null || inventory.length === 0;
+    }
+
+    function playRPS() {
+      if (selectedItemIndex === null || !selectedRPS) return;
+
       const modal = document.getElementById('arena-modal');
-      const coinEl = document.getElementById('coin');
+      const p1Hand = document.getElementById('p1-hand');
+      const p2Hand = document.getElementById('p2-hand');
       const statusEl = document.getElementById('arena-status');
       const resultEl = document.getElementById('arena-result');
 
-      // Ustawienia widoku
-      document.getElementById('p1-name').textContent = p1Name;
-      document.getElementById('p1-choice').textContent = p1Side === 'green' ? '🌿' : '🌸';
-      
-      document.getElementById('p2-name').textContent = p2Name;
-      document.getElementById('p2-choice').textContent = p1Side === 'green' ? '🌸' : '🌿';
-
-      statusEl.textContent = "Losowanie...";
-      resultEl.textContent = "";
       modal.style.display = 'flex';
+      statusEl.textContent = "Pojedynek...";
+      resultEl.textContent = "";
 
-      // Wynik (50/50)
-      const isGreen = Math.random() < 0.5;
-      const resultSide = isGreen ? 'green' : 'pink';
+      const icons = { rock: '🪨', paper: '📄', scissors: '✂️' };
+      const winningMove = { rock: 'scissors', paper: 'rock', scissors: 'paper' };
+      const losingMove = { rock: 'paper', paper: 'scissors', scissors: 'rock' };
 
-      // Animacja obrotu monety
-      const extraSpins = 5 * 360;
-      const targetDeg = isGreen ? 0 : 180;
-      currentRotation += extraSpins + (targetDeg - (currentRotation % 360));
-      
-      if ((currentRotation / 180) % 2 !== (isGreen ? 0 : 1)) {
-        currentRotation += 180;
+      // Algorytm: Dokładnie 30% szans na wygraną gracza
+      const isPlayerWinner = Math.random() < 0.3;
+      let botMove;
+
+      if (isPlayerWinner) {
+        // Bot wybiera opcję, z którą gracz wygrywa
+        botMove = winningMove[selectedRPS];
+      } else {
+        // Bot wybiera opcję, która pokonuje gracza
+        botMove = losingMove[selectedRPS];
       }
 
-      coinEl.style.transform = `rotateY(${currentRotation}deg)`;
+      p1Hand.textContent = '✊';
+      p2Hand.textContent = '✊';
 
-      // Rozstrzygnięcie po 3 sekundach
+      // Animacja pojedynku
       setTimeout(() => {
-        const p1Won = p1Side === resultSide;
-        const winnerName = p1Won ? p1Name : p2Name;
-        
-        statusEl.textContent = `Wypadło: ${isGreen ? '🌿 Zielony Liść' : '🌸 Różowy Kwiat'}`;
-        resultEl.textContent = `Wygrywa ${winnerName}! (+${bet * 2} ☘️)`;
-        resultEl.style.color = "var(--accent)";
+        p1Hand.textContent = icons[selectedRPS];
+        p2Hand.textContent = icons[botMove];
 
-        // Przyznanie wygranej
-        const playerWon = (isHost && p1Won) || (!isHost && !p1Won);
-        if (playerWon) {
-          balance += bet * 2;
-          updateBalanceDisplay();
+        const playedItem = inventory[selectedItemIndex];
+
+        if (isPlayerWinner) {
+          statusEl.textContent = "Wygrana!";
+          resultEl.textContent = `Podwojono ${playedItem.name}! (+2x)`;
+          resultEl.style.color = "var(--accent)";
+          
+          // Dodanie wygranego przedmiotu do ekwipunku (x2)
+          inventory.push({ ...playedItem });
+        } else {
+          statusEl.textContent = "Przegrana!";
+          resultEl.textContent = `Straciłeś ${playedItem.name}.`;
+          resultEl.style.color = "var(--accent-pink)";
+          
+          // Usunięcie postawionego przedmiotu z ekwipunku
+          inventory.splice(selectedItemIndex, 1);
         }
 
-        // Zamknięcie okna po 2.5s
+        selectedItemIndex = null;
+        saveInventory();
+
         setTimeout(() => {
           modal.style.display = 'none';
-        }, 2500);
+        }, 2000);
 
-      }, 3000);
+      }, 1200);
     }
 
     // Inicjalizacja
-    updateBalanceDisplay();
-    renderMatches();
-  </script>
-</body>
-</html>
-    updateBalanceDisplay();
+    renderInventory();
   </script>
 </body>
 </html>
